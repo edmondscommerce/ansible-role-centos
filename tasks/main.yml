@@ -1,7 +1,7 @@
 ---
-- name: Yum plugins
+- name: Basic packages
   yum:
-    name: {{ packages }}
+    name: "{{ packages }}"
   vars:
     packages:
       - vim
