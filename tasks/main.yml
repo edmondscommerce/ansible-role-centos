@@ -1,0 +1,13 @@
+---
+- name: Yum plugins
+  yum:
+    name: {{ packages }}
+  vars:
+    packages:
+      - vim
+      - wget
+
+- name: Bash Profile
+  template:
+    src: etc/profile.d/zz_ec.sh
+    dest: /etc/profile.d/zz_ec.sh
