@@ -1,4 +1,10 @@
 ---
+- name: Disable Yum Fastest Mirror
+  replace:
+    path: /etc/yum/pluginconf.d/fastestmirror.conf
+    regexp: enabled=1
+    replace: enabled=0
+
 - name: Basic packages
   yum:
     name: "{{ packages }}"
