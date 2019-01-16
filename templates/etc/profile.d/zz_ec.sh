@@ -27,7 +27,7 @@ then
 
 #    #SSH Agent
 #    if [ -z "$SSH_AUTH_SOCK" ] ; then
-#        inTemp=$(find /tmp -maxdepth 2 -type s -name "agent*" -user $USER -printf '%T@ %p\n' 2>/dev/null |sort -n|tail -1|cut -d' ' -f2)
+#        inTemp=$(find /tmp -maxdepth 2 -type s -name "agent*" -user $USER -printf '%T@ %p\n' 2>/ansible-ansible-dev/null |sort -n|tail -1|cut -d' ' -f2)
 #        if [[ "" != "$inTemp" ]]
 #        then
 #            SSH_AUTH_SOCK="$inTemp"
