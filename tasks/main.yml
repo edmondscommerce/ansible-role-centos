@@ -1,19 +1,53 @@
 ---
-- name: Disable Yum Fastest Mirror
-  replace:
-    path: /etc/yum/pluginconf.d/fastestmirror.conf
-    regexp: enabled=1
-    replace: enabled=0
+- name: Fastest Mirror Tuning
+  copy:
+    dest: /etc/yum/pluginconf.d/fastestmirror.conf
+    content: |
+      [main]
+      enabled=1
+      verbose=0
+      always_print_best_host = true
+      socket_timeout=1
+      #  Relative paths are relative to the cachedir (and so works for users as well
+      # as root).
+      hostfilepath=timedhosts.txt
+      maxhostfileage=10
+      maxthreads=500
+
+
+- name: Wait for Centos to be accessible - eg just started containers networking can take a few seconds
+  wait_for:
+    host: mirrorlist.centos.org
+    port: 80
+    delay: 0
+    sleep: 2
+    timeout: 30
+    state: started
+
+- name: Yum Update
+  command: yum -y update
 
 - name: Basic packages
   yum:
     name: "{{ packages }}"
+    state: present
   vars:
     packages:
       - vim
       - wget
+      - bash-completion
+      - epel-release
 
 - name: Bash Profile
   template:
     src: etc/profile.d/zz_ec.sh
     dest: /etc/profile.d/zz_ec.sh
+
+- name: Locale
+  copy:
+    content: |
+      LANG=en_GB.utf8
+      export LANG
+      LC_ALL=en_GB.UTF-8
+      export LC_ALL
+    dest: /etc/profile.d/zz_locale.sh
