@@ -14,7 +14,6 @@
       maxhostfileage=10
       maxthreads=500
 
-
 - name: Wait for Centos to be accessible - eg just started containers networking can take a few seconds
   wait_for:
     host: mirrorlist.centos.org
@@ -51,3 +50,11 @@
       LC_ALL=en_GB.UTF-8
       export LC_ALL
     dest: /etc/profile.d/zz_locale.sh
+
+- name: Passwordless Wheel Sudo
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: "^.+?%wheel"
+    line: "%wheel	ALL=(ALL)	NOPASSWD: ALL"
+    validate: '/usr/sbin/visudo -cf %s'
