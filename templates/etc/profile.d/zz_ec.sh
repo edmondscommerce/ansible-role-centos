@@ -70,6 +70,9 @@ then
     ## dnf -y install bash-completion
     [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
         . /usr/share/bash-completion/bash_completion
+
+    export EDITOR=vim
+    alias vi="vim"
 fi
 
 # Moves up a number of dirs
