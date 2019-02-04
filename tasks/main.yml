@@ -52,6 +52,9 @@
       export LC_ALL
     dest: /etc/profile.d/zz_locale.sh
 
+- name: Timezone
+  command: timedatectl set-timezone Europe/London
+
 - name: Passwordless Wheel Sudo
   lineinfile:
     path: /etc/sudoers
