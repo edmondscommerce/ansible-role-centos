@@ -48,6 +48,11 @@
     src: ./../templates/etc/vimrc
     dest: /etc/vimrc
 
+- name: Vim colour scheme
+  copy:
+    src: ./../templates/usr/share/vim/vimfiles/colors/deus.vim
+    dest: /usr/share/vim/vimfiles/colors/deus.vim
+
 - name: Locale
   copy:
     content: |
