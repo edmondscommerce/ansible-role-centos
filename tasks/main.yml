@@ -39,9 +39,14 @@
       - sudo
 
 - name: Bash Profile
-  template:
-    src: etc/profile.d/zz_ec.sh
+  copy:
+    src: ./../templates/etc/profile.d/zz_ec.sh
     dest: /etc/profile.d/zz_ec.sh
+
+- name: Vim Config
+  copy:
+    src: ./../templates/etc/vimrc
+    dest: /etc/vimrc
 
 - name: Locale
   copy:

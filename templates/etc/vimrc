@@ -1,0 +1,148 @@
+" Use Vim settings, rather then Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+
+" ================ General Config ====================
+
+set number                      "Line numbers are good
+set backspace=indent,eol,start  "Allow backspace in insert mode
+set history=1000                "Store lots of :cmdline history
+set showcmd                     "Show incomplete cmds down the bottom
+set showmode                    "Show current mode down the bottom
+set gcr=a:blinkon0              "Disable cursor blink
+set visualbell                  "No sounds
+set autoread                    "Reload files changed outside vim
+set ruler                       "Show the cursor position at all time
+set cursorline                  "Adds a line under the cursor
+set ignorecase                  "Set ignorecase on.
+set showmatch                   "showmatch: Show the matching bracket for the last ')'?
+set ve=all                      "allow the cursor to go beyond the end of the line
+" case insensitive tab completion, if enabled
+if exists("&wildignorecase")
+    set wildignorecase
+endif
+
+" This makes vim act like all other editors, buffers can
+" exist in the background without being in a window.
+" http://items.sjbach.com/319/configuring-vim-right
+set hidden
+
+"turn on syntax highlighting
+syntax on
+
+" If we want to use encryption, lets use the latest version
+" see here for details http://vim.wikia.com/wiki/Encryption
+set cm=blowfish2
+
+" ================ Turn Off Swap Files ==============
+
+set noswapfile
+set nobackup
+set nowb
+
+" ================ Persistent Undo ==================
+" Keep undo history across sessions, by storing in file.
+" Only works all the time.
+
+silent !mkdir ~/.vim/backups > /dev/null 2>&1
+set undodir=~/.vim/backups
+set undofile
+
+" ================ Indentation ======================
+
+set autoindent
+set smartindent
+set smarttab
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+set expandtab
+
+filetype plugin on
+filetype indent on
+
+" Display tabs and trailing spaces visually
+set list listchars=tab:\ \ ,trail:·
+
+set nowrap       "Don't wrap lines
+set linebreak    "Wrap lines at convenient points if manually told to
+
+" ================ Folds ============================
+
+set foldmethod=manual   "Only fold when told to - see here http://vim.wikia.com/wiki/Folding
+
+" ================ Completion =======================
+
+set wildmode=list:longest
+set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
+set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
+set wildignore+=*vim/backups*
+set wildignore+=*sass-cache*
+set wildignore+=*DS_Store*
+set wildignore+=vendor/rails/**
+set wildignore+=vendor/cache/**
+set wildignore+=*.gem
+set wildignore+=log/**
+set wildignore+=tmp/**
+set wildignore+=*.png,*.jpg,*.gif
+
+"
+
+" ================ Scrolling ========================
+
+set scrolloff=8         "Start scrolling when we're 8 lines away from margins
+set sidescrolloff=15
+set sidescroll=1
+
+" =============== Sensible Pasting =================
+let &t_SI .= "\<Esc>[?2004h"
+let &t_EI .= "\<Esc>[?2004l"
+
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
+endfunction
+
+" ====== Use Alt-arrow to move around windows ======
+nmap <silent> <A-Up> :wincmd k<CR>
+nmap <silent> <A-Down> :wincmd j<CR>
+nmap <silent> <A-Left> :wincmd h<CR>
+nmap <silent> <A-Right> :wincmd l<CR>
+
+"Use <Ctrl> J,K,L,H to move around split windows
+nnoremap <C-J> <C-W>J<CR>
+nnoremap <C-K> <C-W>K<CR>
+nnoremap <C-L> <C-W>L<CR>
+nnoremap <C-H> <C-W>H<CR>
+
+" The keys `jj` don't really appear in english, so use this as a quick way to
+" simulate esc
+imap jj <esc>
+vmap jj <esc>
+
+" type cd in normal mode to switch the pwd to that of the file
+nmap <silent> cd :cd %:h<CR>
+
+" For some reason vim doesn't recognise md files as markdown. Lets correct that
+au BufNewFile,BufRead *.md set filetype=markdown
+" And add syntax highlighting for code blocks
+let g:markdown_fenced_languages = ['bash=sh', 'css', 'django', 'javascript', 'js=javascript', 'json=javascript', 'perl', 'php', 'python', 'ruby', 'sass', 'xml', 'html']
+
+" ====== Default nice colour scheme ===============
+colors deus
+
+" ====== Set relative numbers nicely ==============
+set relativenumber
+
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
+" ============ Vagrantfile syntax highlighting =============
+
+au BufRead,BufNewFile Vagrantfile set filetype=ruby
