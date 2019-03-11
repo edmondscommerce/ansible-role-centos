@@ -25,6 +25,7 @@
 
 - name: Yum Update
   command: yum -y update
+  when: ec_centos_update_packages
 
 - name: Basic packages
   yum:
@@ -66,6 +67,7 @@
   command: timedatectl set-timezone Europe/London
 
 - name: Passwordless Wheel Sudo
+  when: ec_centos_sudo_wheel
   lineinfile:
     path: /etc/sudoers
     state: present
