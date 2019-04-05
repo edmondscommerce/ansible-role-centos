@@ -19,7 +19,8 @@ export HISTFILESIZE=20000
 export HISTSIZE=10000
 export HISTIGNORE="&:ls:[bf]g:exit"
 
-
+#Handling Utf-8
+export LESSCHARSET=utf-8
 
 # Settings for interactive shell only inside this block
 if [[ $- == *i* ]]
