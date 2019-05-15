@@ -38,6 +38,7 @@
       - bash-completion
       - epel-release
       - sudo
+      - openssh-server
 
 - name: Bash Profile
   copy:
