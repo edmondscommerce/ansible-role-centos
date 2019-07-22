@@ -41,7 +41,7 @@ then
 
     #Screen Prompt - extra details if we are inside a screen session
     screenPrompt=""
-    if [[ "" != "${STY}" ]]
+    if [[ "" != "${STY:-}" ]]
     then
         screenPrompt="(screen: ${STY})\n"
     fi
