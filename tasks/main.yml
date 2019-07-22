@@ -1,19 +1,4 @@
 ---
-- name: Update DNS Resolution
-  copy:
-    dest: /etc/resolv.conf
-    content: |
-      # see https://www.dnsperf.com/#!dns-providers,Europe
-      options timeout:1 attempts:1
-      # cloudflare
-      nameserver 1.1.1.1
-      #OpenDNS
-      nameserver 208.67.222.222
-      nameserver 208.67.220.220
-      #Google
-      nameserver 8.8.8.8
-      nameserver 8.8.4.4
-
 - name: Fastest Mirror Tuning
   copy:
     dest: /etc/yum/pluginconf.d/fastestmirror.conf
