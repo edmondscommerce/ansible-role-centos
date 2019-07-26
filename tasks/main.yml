@@ -1,5 +1,6 @@
 ---
 - name: Fastest Mirror Tuning
+  become: true
   copy:
     dest: /etc/yum/pluginconf.d/fastestmirror.conf
     content: |
@@ -15,6 +16,7 @@
       maxthreads=500
 
 - name: Wait for Centos to be accessible - eg just started containers networking can take a few seconds
+  become: true
   wait_for:
     host: mirrorlist.centos.org
     port: 80
@@ -24,10 +26,12 @@
     state: started
 
 - name: Yum Update
+  become: true
   command: yum -y update
   when: ec_centos_update_packages
 
 - name: Basic packages
+  become: true
   yum:
     name: "{{ packages }}"
     state: present
@@ -40,21 +44,25 @@
       - sudo
 
 - name: Bash Profile
+  become: true
   copy:
     src: ./../templates/etc/profile.d/zz_ec.sh
     dest: /etc/profile.d/zz_ec.sh
 
 - name: Vim Config
+  become: true
   copy:
     src: ./../templates/etc/vimrc
     dest: /etc/vimrc
 
 - name: Vim colour scheme
+  become: true
   copy:
     src: ./../templates/usr/share/vim/vimfiles/colors/deus.vim
     dest: /usr/share/vim/vimfiles/colors/deus.vim
 
 - name: Locale
+  become: true
   copy:
     content: |
       LANG=en_GB.utf8
@@ -64,9 +72,11 @@
     dest: /etc/profile.d/zz_locale.sh
 
 - name: Timezone
+  become: true
   command: timedatectl set-timezone Europe/London
 
 - name: Passwordless Wheel Sudo
+  become: true
   when: ec_centos_sudo_wheel
   lineinfile:
     path: /etc/sudoers
@@ -76,6 +86,7 @@
     validate: '/usr/sbin/visudo -cf %s'
 
 - name: Set hostname to match ansible hostname
+  become: true
   command: hostnamectl set-hostname "{{ inventory_hostname }}"
 
 
